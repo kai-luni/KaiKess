@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Vehicle on Path</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+				overflow: hidden; /* hide overflow */
+				background-color: #344853;
+			}
+
+			#backgroundSVG {
+				position: fixed;  /* fixed position */
+				top: 0;
+				left: 0;
+				z-index: -1;  /* keep it behind all other content */
+			}
+
+			#textContainer {
+				font-size: 16px;
+				height: 150px;
+				margin: 20px auto;
+				padding: 10px;
+				border: none;
+				overflow: auto;
+				width: 60%;
+				background-color: rgba(255, 255, 255, 0.0); /* Translucent white */
+				color: white; /* Text color */
+			}
+ 
+			svg.vehicle-path {
+				display: block;
+				margin: 0 auto;
+				position: absolute;
+				top: calc(55% + 80px); /* Adjusted to give more space at the top */
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 1;
+			}
+		</style>
+	</head>
+	<body>
+
+	<!-- SVG Background -->
+	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="900" viewBox="0 0 1920 900" id="backgroundSVG">
+		<defs>
+			<linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+				<stop offset="0" stop-color="#344853"/>
+				<stop offset="1" stop-color="#284250" stop-opacity="0"/>
+			</linearGradient>
+		</defs>
+		<rect id="body_bg_top" width="1920" height="900" fill="url(#linear-gradient)"/>
+	</svg>
+
+	<!-- Text container -->
+	<div id="textContainer">Willkommen auf der Karriereseite - Wir sind 89 Menschen, die zusammen die Digitalisierung rocken. Wir inspirieren und begleiten unsere Kunden auf den Weg in eine digitale, nachhaltige und lebenswerte Welt von ... MORGEN. Wir haben verstanden, dass wir nur durch Deine Entwicklung staerker fuer die gemeinsame Zukunft werden! Du musst nur wollen, wir machen dich stark.</div>
+
+	<svg width="60%" viewBox="0 0 600 400" style="" class="vehicle-path">
+		<!-- Complex Path Line -->
+		<path id="pathLine" d="M0 200 C100 -50 500 450 580 70 S750 500 600 380" fill="none" stroke="black" stroke-width="2"></path>
+		
+		<!-- Stations -->
+		<circle cx="50" cy="140" r="10" fill="#fff" class="station" data-pos="0"></circle>
+		<circle cx="200" cy="146" r="10" fill="#fff" class="station" data-pos="0.25"></circle>
+		<circle cx="400" cy="215" r="10" fill="#fff" class="station" data-pos="0.75"></circle>
+		<circle cx="560" cy="130" r="10" fill="#fff" class="station" data-pos="1"></circle>
+		
+		<!-- Vehicle -->
+		<image href="bee.png" x="590" y="370" height="60" width="60" id="vehicle"></image>
+	</svg>
+
+    <script>
+	    const textContainer = document.getElementById('textContainer');
+		const texts = {
+			'0': 'Willkommen auf der Karriereseite - Wir sind 89 Menschen, die zusammen die Digitalisierung rocken. Wir inspirieren und begleiten unsere Kunden auf den Weg in eine digitale, nachhaltige und lebenswerte Welt von ... MORGEN. Wir haben verstanden, dass wir nur durch Deine Entwicklung staerker fuer die gemeinsame Zukunft werden! Du musst nur wollen, wir machen dich stark.',
+			'0.25': 'Bei PHAT legen wir grossen Wert auf die individuelle Entwicklung unserer Mitarbeiter. Wir bieten vielfaeltige Weiterbildungsmoeglichkeiten und foerdern aktiv die berufliche und persoenliche Weiterentwicklung jedes Einzelnen. Bei uns hast du die Moeglichkeit, an spannenden Projekten mitzuwirken und dich in einem dynamischen und innovativen Umfeld weiterzuentwickeln. Werde Teil unseres Teams und gestalte die Zukunft mit! Text',
+			'0.75': 'Wir bei PHAT sind davon ueberzeugt, dass die Staerke eines Unternehmens in seinen Mitarbeitern liegt. Deshalb legen wir grossen Wert auf ein positives und inspirierendes Arbeitsumfeld, in dem sich jeder Einzelne entfalten und seine Faehigkeiten voll ausschoepfen kann. Bei uns hast du die Moeglichkeit, deine Ideen einzubringen und Verantwortung zu uebernehmen. Werde Teil unseres Teams und erlebe, wie wir gemeinsam die digitale Zukunft gestalten!',
+			'1': 'Bei PHAT steht der Mensch im Mittelpunkt. Wir legen grossen Wert auf eine offene und wertschaetzende Unternehmenskultur, in der sich jeder Mitarbeiter wohl und respektiert fuehlt. Wir foerdern eine gute Work-Life-Balance und bieten flexible Arbeitszeiten sowie Moeglichkeiten zur Vereinbarkeit von Beruf und Familie. Bei uns findest du nicht nur einen Job, sondern eine Gemeinschaft, die dich unterstuetzt und fordert. Werde Teil unseres Teams und erlebe, wie wir gemeinsam Grosses erreichen!'
+		};
+	
+		const path = document.getElementById('pathLine');
+		const length = path.getTotalLength();
+		const vehicle = document.getElementById('vehicle');
+		const offsetX = 12;   // X-offset for the bee's position adjustment
+		const offsetY = -10; // Y-offset for the bee's position adjustment
+
+		const hardcodedCoords = {
+			'0': {x: 50, y: 140},
+			'0.25': {x: 200, y: 146},
+			'0.75': {x: 400, y: 215},
+			'1': {x: 560, y: 130}
+		};
+
+		let currentPercent = 0.06;
+		let targetPercent = 0.06;
+		const speed = 0.005;
+
+		// Set the bee's initial position
+		const initialPoint = path.getPointAtLength(currentPercent * length);
+		vehicle.setAttribute('x', initialPoint.x - 30 + offsetX);
+		vehicle.setAttribute('y', initialPoint.y - 30 + offsetY);
+
+		function posToPercent(pos) {
+			const {x, y} = hardcodedCoords[pos];
+			let closestLength = 0;
+			let minDistance = Infinity;
+
+			for (let i = 0; i <= length; i += 1) {
+				const point = path.getPointAtLength(i);
+				const distance = Math.sqrt((point.x - x) ** 2 + (point.y - y) ** 2);
+				if (distance < minDistance) {
+					minDistance = distance;
+					closestLength = i;
+				}
+			}
+
+			return closestLength / length;
+		}
+
+
+	function animateVehicle() {
+		if (Math.abs(targetPercent - currentPercent) > speed) {
+			const direction = Math.sign(targetPercent - currentPercent);
+			currentPercent += direction * speed;
+
+			const point = path.getPointAtLength(currentPercent * length);
+			vehicle.setAttribute('x', point.x - 30 + offsetX);
+			vehicle.setAttribute('y', point.y - 30 + offsetY);
+			
+			requestAnimationFrame(animateVehicle);
+		} else {
+			// Once the bee has arrived at its destination, update the text
+			for (let pos in hardcodedCoords) {
+				if (Math.abs(targetPercent - posToPercent(pos)) < 0.001) {
+					textContainer.textContent = texts[pos];
+					break;
+				}
+			}
+		}
+	}
+
+	function moveVehicle(pos) {
+		targetPercent = posToPercent(pos);
+		requestAnimationFrame(animateVehicle);
+	}
+
+	document.querySelectorAll('.station').forEach(station => {
+		station.addEventListener('click', (e) => {
+			const pos = e.target.getAttribute('data-pos');
+			moveVehicle(pos);
+		});
+	});
+    </script>
+</body>
+</html>
