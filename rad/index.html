@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rotation Animation - Speed Up Then Slow to Stop</title>
+</head>
+<body>
+
+<div style="position: relative;">
+	<img id="radImage" src="rad.png" alt="Rotating Image" style="width: 800px;">
+	<img id="arrImage" src="arrow.png" alt="Arrow" style="position: absolute; left: 375px; top: -10px; width: 50px;">
+</div>
+
+
+<script>
+  const image = document.getElementById('radImage');
+  let angle = 0; // Initial angle
+  let speed = 0.1; // Initial speed in degrees per millisecond
+  let acceleration = 0.05; // Rate at which the speed will increase
+  let deceleration = 0.005;
+  let slowingDown = false; // A flag to indicate if it's slowing down
+
+  function rotateImage(timestamp) {
+    if (speed > 0) {
+      // As long as the speed is positive, we're still animating
+      angle += speed; // Increase the angle by the current speed
+      image.style.transform = `rotate(${angle}deg)`; // Apply the rotation
+
+      if (!slowingDown) {
+        // Speed up phase
+        speed += acceleration;
+		//console.log(speed)
+        if (speed >= 6.0) {
+          // Reached peak speed, begin slowing down
+          slowingDown = true;
+          acceleration = -deceleration; // Reverse the acceleration
+        }
+      } else {
+        // Slowing down phase
+        speed += acceleration;
+		//console.log("Slowing Down: " + speed)
+        if (speed <= 0) {
+          // Stop the animation when speed is zero or less
+          speed = 0;
+        }
+      }
+
+      requestAnimationFrame(rotateImage); // Request the next frame of the animation
+    }
+  }
+
+  requestAnimationFrame(rotateImage); // Start the animation
+</script>
+
+</body>
+</html>
