@@ -3,54 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rotation Animation - Speed Up Then Slow to Stop</title>
+<title>Rotation Animation with Button</title>
+<style>
+  body {
+    background-color: black; /* Set the background color to black */
+    color: white; /* Set the text color to white for visibility */
+  }
+  .container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  #btn {
+	background-color: transparent;
+    background-image: url("button.png");
+	background-size: cover;
+    width: 200px; /* Adjust as needed */
+    height: 200px; /* Adjust as needed */
+    border: none;
+    cursor: pointer;
+    margin-right: 20px; /* Space between button and rotating image */
+  }
+</style>
 </head>
 <body>
 
-<div style="position: relative;">
-	<img id="radImage" src="rad.png" alt="Rotating Image" style="width: 800px;">
-	<img id="arrImage" src="arrow.png" alt="Arrow" style="position: absolute; left: 375px; top: -10px; width: 50px;">
+<div class="container">
+  <button id="btn"></button>
+  <div>
+	  <div style="position: relative; height:800px; overflow: hidden;">
+		<img id="radImage" src="rad.png" alt="Rotating Image" style="width: 800px;">
+		<img id="arrImage" src="arrow.png" alt="Arrow" style="position: absolute; left: 375px; top: -10px; width: 50px;">
+	  </div>
+  </div>
 </div>
-
 
 <script>
   const image = document.getElementById('radImage');
   let angle = 0; // Initial angle
   let speed = 0.1; // Initial speed in degrees per millisecond
-  let acceleration = 0.05; // Rate at which the speed will increase
-  let deceleration = 0.005;
+  let acceleration = 0.1; // Rate at which the speed will increase
+  let counter_inbetween = 20;
+  let deceleration = 0.015;
+  let max_speed = 6.0;
   let slowingDown = false; // A flag to indicate if it's slowing down
 
   function rotateImage(timestamp) {
     if (speed > 0) {
-      // As long as the speed is positive, we're still animating
       angle += speed; // Increase the angle by the current speed
       image.style.transform = `rotate(${angle}deg)`; // Apply the rotation
-
       if (!slowingDown) {
-        // Speed up phase
         speed += acceleration;
-		//console.log(speed)
-        if (speed >= 6.0) {
-          // Reached peak speed, begin slowing down
+        if (speed >= max_speed) {
           slowingDown = true;
           acceleration = -deceleration; // Reverse the acceleration
         }
       } else {
-        // Slowing down phase
-        speed += acceleration;
-		//console.log("Slowing Down: " + speed)
-        if (speed <= 0) {
-          // Stop the animation when speed is zero or less
-          speed = 0;
-        }
+		if(counter_inbetween > 0)
+		{
+			counter_inbetween = counter_inbetween - 1;
+		}
+		else
+		{
+          speed += acceleration;
+          if (speed <= 0) {
+            speed = 0;
+          }
+		}
       }
-
       requestAnimationFrame(rotateImage); // Request the next frame of the animation
     }
   }
 
-  requestAnimationFrame(rotateImage); // Start the animation
+
+  const button = document.getElementById('btn');
+  var button_clicked = false;
+  button.addEventListener('click', function() {    
+    if(!button_clicked)
+	{
+      button.style.backgroundImage = 'url("button_pressed.png")';
+      // Add any additional functionality you want to trigger with the button press
+	}
+	button_clicked = true;
+	requestAnimationFrame(rotateImage); // Start the animation
+  });
 </script>
 
 </body>
