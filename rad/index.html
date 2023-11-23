@@ -5,42 +5,101 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rotation Animation with Button</title>
 <style>
-  body {
-    background-color: black; /* Set the background color to black */
-    color: white; /* Set the text color to white for visibility */
-  }
-  .container {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-  #btn {
-	background-color: transparent;
-    background-image: url("button.png");
-	background-size: cover;
-    width: 200px; /* Adjust as needed */
-    height: 200px; /* Adjust as needed */
-    border: none;
-    cursor: pointer;
-    margin-right: 20px; /* Space between button and rotating image */
-  }
+    body {
+      background-color: black;
+      color: white;
+    }
+    .container {
+      display: flex;
+      flex-direction: row; /* Lay out children horizontally */
+      justify-content: space-around; /* Distribute space around items */
+      width: 100%; /* Set container width to full viewport width */
+    }
+    .text-button-group, .wheel {
+      flex: 1; /* Allocate 50% width to each column */
+    }
+    #btn {
+      background-color: transparent;
+      background-image: url("button.png");
+      background-size: cover;
+      margin-top: 20px; /* Space above the button */
+      width: 200px;
+      height: 200px;
+      border: none;
+      cursor: pointer;  
+    }
+	
+	.info-text {
+	  margin-top: 20px; /* Lower the headline */
+	}
+
+	.info-text h2 {
+	  margin-left: 24px;
+	  text-align: left; /* Left align the headline */
+	}
+
+	.info-text p {
+	  font-size: 18px; /* Increase the font size of the normal text */
+	}
+
+	.button-container {
+	  display: flex;
+	  justify-content: center; /* Center horizontally */
+	  align-items: center; /* Center vertically */
+	  margin-top: 64px;
+	}
+	.wheel {
+	  position: relative;
+	  width: 800px; /* Fixed width */
+	  height: 800px; /* Fixed height, adjust based on the size of the wheel image */
+	  margin: auto; /* Center the wheel within its container */
+	  overflow: hidden; /* Prevents any part of the rotating image from overflowing */
+	}
+
+	#radImage {
+	  width: 100%; /* Scale the image to fit the container */
+	  transform-origin: center; /* Set the rotation point to the center of the image */
+	}
+    #arrImage {
+      position: absolute;
+      left: 50%; /* Position arrow in the middle of the wheel */
+      top: -10px;
+      width: 50px;
+      transform: translateX(-50%); /* Center the arrow horizontally */
+    }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <button id="btn"></button>
-  <div>
-	  <div style="position: relative; height:800px; overflow: hidden;">
-		<img id="radImage" src="rad.png" alt="Rotating Image" style="width: 800px;">
-		<img id="arrImage" src="arrow.png" alt="Arrow" style="position: absolute; left: 375px; top: -10px; width: 50px;">
+  <div class="text-button-group">
+	<div class="info-text">
+	  <br><br><br><br><br>
+	  <div>
+		<h2>Wie funktioniert die Wichtel-Maschine:</h2>
 	  </div>
+	  <br><br>
+	  <ol>
+        <li><p>Klicke auf Start und lass dir von unserer Wichtel-Maschine deinen PHATten Wichtel auswählen.</p></li>
+        <li><p>Im Anschluss öffnet sich ein neues Fenster, in dem du ein bisschen aktiv werden musst.</p></li>
+        <li><p><strong>WICHTIG:</strong> Du kannst nur bis zum XX.XX mitmachen, da es sonst zu knapp für die Wichtel-Magie wird.</p></li>
+        <li><p>Am 06.12 darfst du dich auf die Auflösung und Weihnachtspost freuen! Mitmachen lohnt sich, denn für alle Teilnehmer:innen gibt es eine Überraschung für 2024 😊</p></li>
+      </ol>
+    </div>
+    <div class="button-container">
+      <button id="btn"></button>
+    </div>
+  </div>
+  <div class="wheel">
+    <img id="radImage" src="rad.png" alt="Rotating Image">
+    <img id="arrImage" src="arrow.png" alt="Arrow">
   </div>
 </div>
 
 <script>
   const image = document.getElementById('radImage');
-  let angle = 0; // Initial angle
+  let angle = Math.random() * 360; // Random angle between 0 and 360 degrees
+  image.style.transform = `rotate(${angle}deg)`; // Apply the rotation
   let speed = 0.1; // Initial speed in degrees per millisecond
   let acceleration = 0.1; // Rate at which the speed will increase
   let counter_inbetween = 20;
