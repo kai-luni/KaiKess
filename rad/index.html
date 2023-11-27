@@ -66,7 +66,35 @@
 	#radImage {
 	  width: 100%; /* Scale the image to fit the container */
 	  transform-origin: center; /* Set the rotation point to the center of the image */
-	}
+  }
+  
+  /* Mobile Responsive Styles */
+  @media screen and (max-width: 767px) {
+      .container {
+        flex-direction: column; /* Stack children vertically */
+        align-items: center; /* Center children horizontally */
+      }
+
+      .text-button-group, .wheel {
+        flex: none; /* Remove the flex grow/shrink */
+        width: 100%; /* Full width for mobile */
+        max-width: 800px; /* Limit the maximum width */
+        margin: 0 auto; /* Center align within the container */
+      }
+
+      .wheel {
+        height: auto; /* Adjust the height automatically for mobile */
+      }
+
+      .button-container {
+        width: 100%; /* Full width for the button container */
+      }
+
+      #btn {
+        width: 150px; /* Smaller button size for mobile */
+        height: 150px;
+      }
+  }
 </style>
 </head>
 <body>
