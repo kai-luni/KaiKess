@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rotation Animation with Button</title>
 <style>
+    #arrImage {
+      position: absolute;
+      left: 50%; /* Position arrow in the middle of the wheel */
+      top: -2px;
+      width: 71px;
+      transform: translateX(-50%); /* Center the arrow horizontally */
+    }
     body {
       background-color: black;
       color: white;
@@ -60,13 +67,6 @@
 	  width: 100%; /* Scale the image to fit the container */
 	  transform-origin: center; /* Set the rotation point to the center of the image */
 	}
-    #arrImage {
-      position: absolute;
-      left: 50%; /* Position arrow in the middle of the wheel */
-      top: -10px;
-      width: 50px;
-      transform: translateX(-50%); /* Center the arrow horizontally */
-    }
 </style>
 </head>
 <body>
@@ -106,6 +106,12 @@
   let deceleration = 0.015;
   let max_speed = 6.0;
   let slowingDown = false; // A flag to indicate if it's slowing down
+  
+  function redirectToUrl() {
+    setTimeout(function() {
+      window.location.href = "https://www.phatconsulting.de/uncategorized/test-steckbriefmaske/";
+    }, 5000); // 5 seconds delay
+  }
 
   function rotateImage(timestamp) {
     if (speed > 0) {
@@ -131,7 +137,9 @@
 		}
       }
       requestAnimationFrame(rotateImage); // Request the next frame of the animation
-    }
+    } else {
+	  redirectToUrl(); // Call redirection after the animation ends
+	}
   }
 
 
