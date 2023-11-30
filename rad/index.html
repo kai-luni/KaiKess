@@ -203,10 +203,9 @@
     const star = document.getElementById('star');
     star.style.opacity = '1'; // Show the star
 
-    setTimeout(() => {
-      const starSound = document.getElementById('starSound');
-      starSound.play();
-    }, 200);
+
+    const starSound = document.getElementById('starSound');
+    starSound.play();
 
     setTimeout(() => {
       star.style.transform = 'translate(-50%, -50%) scale(300) rotate(360deg)';
