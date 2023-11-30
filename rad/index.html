@@ -26,6 +26,10 @@
       flex-direction: row; /* Lay out children horizontally */
       justify-content: space-around; /* Distribute space around items */
       width: 100%; /* Set container width to full viewport width */
+      background-image: url('WichtelSchnee.png'); /* Add background image */
+      background-size: cover; /* Cover the entire page */
+      background-repeat: no-repeat; /* No repeat of the image */
+      background-attachment: fixed; /* Fixed background */
     }
     .text-button-group, .wheel {
       flex: 1; /* Allocate 50% width to each column */
@@ -115,7 +119,10 @@
 </head>
 <body>
 
-<div id="star"></div>
+  <!-- Audio elements -->
+  <audio id="wheelSound" src="sounds/magic-wand-6214.mp3" preload="auto"></audio>
+  <audio id="starSound" src="sounds/magic-mallet-6262.mp3" preload="auto"></audio>
+  <div id="star"></div>
 
 <div class="container">
   <div class="text-button-group">
@@ -154,6 +161,7 @@
   let deceleration = 0.015;
   let max_speed = 6.0;
   let slowingDown = false; // A flag to indicate if it's slowing down
+  let wheelStartedSpinning = false; //flag for sound,
 
   // Assuming you have a function or event for when the wheel stops
   function onWheelStop() {
@@ -196,6 +204,11 @@
     star.style.opacity = '1'; // Show the star
 
     setTimeout(() => {
+      const starSound = document.getElementById('starSound');
+      starSound.play();
+    }, 200);
+
+    setTimeout(() => {
       star.style.transform = 'translate(-50%, -50%) scale(300) rotate(360deg)';
     }, 1000);
 
@@ -217,15 +230,22 @@
   const button = document.getElementById('btn');
   var button_clicked = false;
   button.addEventListener('click', function() {    
-    if(!button_clicked)
-	{
-      button.style.backgroundImage = 'url("button_pressed.png")';
-      // Add any additional functionality you want to trigger with the button press
-	}
-	button_clicked = true;
-	requestAnimationFrame(rotateImage); // Start the animation
+    if(!button_clicked) {
+        button.style.backgroundImage = 'url("button_pressed.png")';
+    }
+    button_clicked = true;
+    
+    if (!wheelStartedSpinning) {
+      wheelStartedSpinning = true;
+      const wheelSound = document.getElementById('wheelSound');
+      wheelSound.play();
+    }
+    //delay to sync with sound
+    setTimeout(() => {
+      requestAnimationFrame(rotateImage); // Start the animation
+    }, 650);
+    
   });
 </script>
-
 </body>
 </html>
