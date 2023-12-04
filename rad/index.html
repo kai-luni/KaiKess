@@ -62,17 +62,17 @@
   }
   #star 
   {
+    opacity: 0;
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 25px;
-    height: 25px;
+    width: 12px;
+    height: 12px;
     background-image: url('pictures/WichtelStern.png'); /* Replace with your star image */
     background-size: cover;
     transform-origin: center;
     transform: translate(-50%, -50%) scale(1);
     transition: transform 5s ease-in-out, opacity 2s ease-in-out;
-    opacity: 0; /* Start with the star hidden */
     z-index: 10; /* Ensure star is above other elements if necessary */
   }
   .wheel {
@@ -83,7 +83,7 @@
     overflow: hidden; /* Prevents any part of the rotating image from overflowing */
   }
   /* Mobile Responsive Styles */
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 925px) {
     #arrImage {
       left: 50%; /* Position arrow in the middle of the wheel */
     }
@@ -110,6 +110,7 @@
         margin-bottom: 20px; /* Add some space below each section */
     }
     .wheel {
+        height: 800px; /* so the wheel is not cut of in the lower part, any better solution? */
         position: relative;
         width: 100%; /* Full width for mobile */
         max-width: 800px; /* Limit the maximum width */
@@ -210,7 +211,7 @@
     starSound.play();
 
     setTimeout(() => {
-      star.style.transform = 'translate(-50%, -50%) scale(350) rotate(360deg)';
+      star.style.transform = 'translate(-50%, -50%) scale(700) rotate(360deg)';
     }, 1000);
 
     setTimeout(() => {
