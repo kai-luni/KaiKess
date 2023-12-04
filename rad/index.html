@@ -26,7 +26,7 @@
       flex-direction: row; /* Lay out children horizontally */
       justify-content: space-around; /* Distribute space around items */
       width: 100%; /* Set container width to full viewport width */
-      background-image: url('WichtelSchnee.png'); /* Add background image */
+      background-image: url('pictures/WichtelSchnee.png'); /* Add background image */
       background-size: cover; /* Cover the entire page */
       background-repeat: no-repeat; /* No repeat of the image */
       background-attachment: fixed; /* Fixed background */
@@ -36,7 +36,7 @@
     }
     #btn {
       background-color: transparent;
-      background-image: url("button.png");
+      background-image: url("pictures/button.png");
       background-size: cover;
       margin-top: 20px; /* Space above the button */
       width: 200px;
@@ -65,9 +65,9 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 20px;
-      height: 20px;
-      background-image: url('WichtelStern.png'); /* Replace with your star image */
+      width: 25px;
+      height: 25px;
+      background-image: url('pictures/WichtelStern.png'); /* Replace with your star image */
       background-size: cover;
       transform-origin: center;
       transform: translate(-50%, -50%) scale(1);
@@ -120,8 +120,8 @@
 <body>
 
   <!-- Audio elements -->
-  <audio id="wheelSound" src="sounds/magic-wand-6214.mp3" preload="auto"></audio>
-  <audio id="starSound" src="sounds/magic-mallet-6262.mp3" preload="auto"></audio>
+  <audio id="wheelSound" src="sounds/PrizeWheel.mp3" preload="auto"></audio>
+  <audio id="starSound" src="sounds/MagicWand.mp3" preload="auto"></audio>
   <div id="star"></div>
 
 <div class="container">
@@ -145,8 +145,8 @@
   
   </div>
   <div class="wheel">
-    <img id="radImage" src="rad.png" alt="Rotating Image">
-    <img id="arrImage" src="arrow.png" alt="Arrow">
+    <img id="radImage" src="pictures/rad.png" alt="Rotating Image">
+    <img id="arrImage" src="pictures/arrow.png" alt="Arrow">
   </div>
 </div>
 </div>
@@ -208,7 +208,7 @@
     starSound.play();
 
     setTimeout(() => {
-      star.style.transform = 'translate(-50%, -50%) scale(300) rotate(360deg)';
+      star.style.transform = 'translate(-50%, -50%) scale(350) rotate(360deg)';
     }, 1000);
 
     setTimeout(() => {
@@ -230,7 +230,7 @@
   var button_clicked = false;
   button.addEventListener('click', function() {    
     if(!button_clicked) {
-        button.style.backgroundImage = 'url("button_pressed.png")';
+        button.style.backgroundImage = 'url("pictures/button_pressed.png")';
     }
     button_clicked = true;
     
