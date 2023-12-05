@@ -15,7 +15,7 @@
     background-color: white;
     color: black;
   }
-    .button-container {
+  .button-container {
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
@@ -31,8 +31,12 @@
     background-repeat: no-repeat; /* No repeat of the image */
     background-attachment: fixed; /* Fixed background */
   }
-  .text-button-group, .wheel {
-    flex: 1; /* Allocate 50% width to each column */
+  .text-button-group {
+    flex: 1.5; /* Allocate % width to each column */
+    padding-right: 6%;
+  }
+  .wheel {
+    flex: 1; /* Allocate % width to each column */
   }
   #btn {
     background-color: transparent;
@@ -129,13 +133,13 @@
 
 <div class="container">
   <div class="text-button-group">
-	<div class="info-text">
-	  <br><br><br><br><br>
-	  <div>
-		<h2>Wie funktioniert die Wichtel-Maschine:</h2>
-	  </div>
-	  <br><br>
-	  <ol>
+    <div class="info-text">
+      <br><br><br><br><br>
+      <div>
+      <h2>Wie funktioniert die Wichtel-Maschine:</h2>
+      </div>
+      <br><br>
+      <ol>
         <li><p>Klicke auf Start und lass dir von unserer Wichtel-Maschine deinen PHATten Wichtel auswählen. Dieser bleibt vorerst geheim.</p></li>
         <li><p>Im Anschluss öffnet sich ein neues Fenster, in dem du ein bisschen aktiv werden musst.</p></li>
         <li><p><strong>WICHTIG:</strong> Du kannst nur bis zum 12.12 bis 12 Uhr mitmachen, da es sonst zu knapp für die Wichtel-Magie wird.</p></li>
@@ -215,17 +219,9 @@
     }, 1000);
 
     setTimeout(() => {
-      document.querySelector('.container').style.display = 'none';
-    }, 5000);    
-
-    setTimeout(() => {
-      star.style.opacity = '0'; // Fade out the star
-    }, 6000);
-
-    setTimeout(() => {
       // Call redirection after the animation ends
       window.location.href = "https://www.phatconsulting.de/uncategorized/test-steckbriefmaske/";
-    }, 10000);
+    }, 8500);
   }
 
 
